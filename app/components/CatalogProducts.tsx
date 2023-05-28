@@ -239,15 +239,15 @@ const CatalogProducts = () => {
       </div>
       <div className="grid grid-cols-5 grid-rows-2 gap-2 mt-3">
         {products.map((item, index) => (
-          <div className="flex justify-center flex-col">
+          <div className="flex justify-center flex-col group cursor-pointer">
             <div
               key={index}
-              className="h-[213px] w-[213px]  mt-4 group overflow-hidden"
+              className="h-[213px] w-[213px] mt-4 overflow-hidden"
             >
               <Image
                 src={item.img}
                 alt="product"
-                className="rounded-[inherit] group-hover:scale-125 hover:ease-in-out duration-300"
+                className="rounded-[inherit] group-hover:scale-105 hover:ease-in-out duration-300"
               />
             </div>
             <h3 className="mt-3 text-[12px]">{item.title}</h3>
