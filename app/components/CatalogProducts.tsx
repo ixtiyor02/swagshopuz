@@ -1,9 +1,12 @@
 "use client";
-import Image from "next/image";
-import cup from "../assets/kiss-cut.png";
 import React, { useEffect, useRef, useState } from "react";
+import { Product } from "../services/productAPI";
 
-const CatalogProducts = () => {
+interface SecondPageProps {
+  products: Product[];
+}
+
+const CatalogProducts: React.FC<SecondPageProps> = ({ products }) => {
   //toggle of filter, sort and features
   const [activeAvaby, setActiveAvaby] = useState(false);
   const [activePrice, setActivePrice] = useState(false);
@@ -44,43 +47,9 @@ const CatalogProducts = () => {
     };
   }, []);
 
-  const products = [
-    {
-      img: cup,
-      title: "Black Glossy Mug",
-      price: 12,
-    },
-    {
-      img: cup,
-      title: "Black Glossy Mug",
-      price: 12,
-    },
-    {
-      img: cup,
-      title: "Black Glossy Mug",
-      price: 12,
-    },
-    {
-      img: cup,
-      title: "Black Glossy Mug",
-      price: 12,
-    },
-    {
-      img: cup,
-      title: "Black Glossy Mug",
-      price: 12,
-    },
-    {
-      img: cup,
-      title: "Black Glossy Mug",
-      price: 12,
-    },
-    {
-      img: cup,
-      title: "Black Glossy Mug",
-      price: 12,
-    },
-  ];
+  const handleNavigate = () => {
+    window.location.href = "/pages/products";
+  };
 
   return (
     <div className="flex justify-center items-center flex-col pb-20">
@@ -237,21 +206,22 @@ const CatalogProducts = () => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-5 grid-rows-2 gap-2 mt-3">
-        {products.map((item, index) => (
-          <div className="flex justify-center flex-col group cursor-pointer">
-            <div
-              key={index}
-              className="h-[213px] w-[213px] mt-4 overflow-hidden"
-            >
-              <Image
-                src={item.img}
-                alt="product"
+      <div className="grid grid-cols-4 grid-rows-2 gap-2 mt-3">
+        {products?.map((product) => (
+          <div
+            onClick={handleNavigate}
+            key={product.id}
+            className="flex justify-center flex-col group cursor-pointer"
+          >
+            <div className="h-[269px] w-[269px] mt-4 overflow-hidden">
+              <img
+                src={product.poster}
+                alt={product.name}
                 className="rounded-[inherit] group-hover:scale-105 hover:ease-in-out duration-300"
               />
             </div>
-            <h3 className="mt-3 text-[12px]">{item.title}</h3>
-            <h4 className="mt-3 text-[15px]">${item.price} USD</h4>
+            <h3 className="mt-3 text-[12px]">{product.name}</h3>
+            <h4 className="mt-3 text-[15px]">${product.price} USD</h4>
           </div>
         ))}
       </div>

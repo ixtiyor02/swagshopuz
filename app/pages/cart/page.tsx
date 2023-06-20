@@ -1,32 +1,20 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import cup from "../../assets/kiss-cut.png";
-
-const products = [
-  {
-    img: cup,
-    title: "Black Glossy Mug",
-    price: 12,
-  },
-  {
-    img: cup,
-    title: "Black Glossy Mug",
-    price: 12,
-  },
-  {
-    img: cup,
-    title: "Black Glossy Mug",
-    price: 12,
-  },
-  {
-    img: cup,
-    title: "Black Glossy Mug",
-    price: 12,
-  },
-];
+import { Product, fetchProducts } from "../../services/productAPI";
 
 const Cart = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    fetchProducts()
+      .then((data) => setProducts(data))
+      .catch((error) => console.error(error));
+  }, []);
+
+  const handleNavigate = () => {
+    window.location.href = "/pages/products";
+  };
   return (
     <div className="flex justify-center items-center flex-col pt-[70px] pb-16">
       <h1 className="text-[40px] leading-[52px] text-center tracking-[0.6px]">
@@ -52,21 +40,23 @@ const Cart = () => {
         <h1 className="text-[24px] leading-[31.2px] tracking-[0.6px] text-start mt-7">
           Featured products
         </h1>
-        <div className="grid grid-cols-4 grid-rows-1 gap-2 mt-3">
-          {products.map((item, index) => (
-            <div className="flex justify-center flex-col group cursor-pointer">
-              <div
-                key={index}
-                className="h-[269px] w-[269px] mt-4 overflow-hidden"
-              >
-                <Image
-                  src={item.img}
-                  alt="product"
+
+        <div className="grid grid-cols-4 grid-rows-2 gap-2 mt-3">
+          {products?.map((product: any) => (
+            <div
+              onClick={handleNavigate}
+              key={product.id}
+              className="flex justify-center flex-col group cursor-pointer"
+            >
+              <div className="h-[269px] w-[269px] mt-4 overflow-hidden">
+                <img
+                  src={product.poster}
+                  alt={product.name}
                   className="rounded-[inherit] group-hover:scale-105 hover:ease-in-out duration-300"
                 />
               </div>
-              <h3 className="mt-3 text-[12px]">{item.title}</h3>
-              <h4 className="mt-3 text-[15px]">${item.price} USD</h4>
+              <h3 className="mt-3 text-[12px]">{product.name}</h3>
+              <h4 className="mt-3 text-[15px]">${product.price} USD</h4>
             </div>
           ))}
         </div>
